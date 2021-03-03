@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/MP01_CRUD" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP01_CRUD/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP01_CRUD/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP02_AR" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP02_AR/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP02_AR/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP03_Generator" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP03_Generator/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP03_Generator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP04_Pagination" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP04_Pagination/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP04_Pagination/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP05_CustomConfig" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP05_CustomConfig/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MP05_CustomConfig/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

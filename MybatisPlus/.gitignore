@@ -1,0 +1,6 @@
+# Project exclude paths
+/MP01_CRUD/target/
+/MP02_AR/target/
+/MP03_Generator/target/
+/MP04_Pagination/target/
+/out/

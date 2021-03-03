@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.feng.mp</groupId>
+    <artifactId>Mybatis-Plus</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>MP01_CRUD</module>
+        <module>MP02_EntityWrapper</module>
+        <module>MP02_AR</module>
+        <module>MP03_Generator</module>
+        <module>MP04_Pagination</module>
+        <module>MP05_CustomConfig</module>
+        <module>MP05_CustomConfig</module>
+    </modules>
+
+
+</project>
