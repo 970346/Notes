@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/spring01_IOC&amp;&amp;DI" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring02_AOP_annotations" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring03_AOP_xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring04_jdbcTemplate" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring05_tx" charset="UTF-8" />
+  </component>
+</project>

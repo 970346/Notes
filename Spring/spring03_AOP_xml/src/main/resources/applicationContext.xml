@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <context:component-scan base-package="com.feng.spring"></context:component-scan>
+
+    <!--开启基于注解的AOP功能-->
+    <!--步骤：
+        1、将目标类和切面类都加入到ioc容器中，@Component
+        2、告诉spring哪个是切面，@Aspect
+        3、在切面类中使用五个通知注解来配置切面中的这些通知方法都何时何地运行
+    -->
+
+    <!--基于配置的AOP-->
+    <bean id="calculator" class="com.feng.spring.inter.impl.MyMathCalculator"></bean>
+    <bean id="apsect" class="com.feng.spring.utils.BValidateApsect"></bean>
+    <bean id="logUtils" class="com.feng.spring.utils.LogUtils"></bean>
+
+    <aop:config>
+        <aop:pointcut id="mypoint" expression="execution(* com.feng.spring.inter.impl.MyMathCalculator.*(..))"></aop:pointcut>
+        <!--指定切面-->
+        <aop:aspect ref="logUtils">
+            <aop:around method="myAround" pointcut-ref="mypoint"/>
+            <aop:before method="logStart" pointcut-ref="mypoint"/>
+            <aop:after-returning method="logReturn" pointcut-ref="mypoint" returning="result"/>
+            <aop:after-throwing method="logException" pointcut-ref="mypoint" throwing="e"/>
+            <aop:after method="logEnd" pointcut-ref="mypoint"/>
+         </aop:aspect>
+        <aop:aspect ref="apsect">
+            <aop:before method="logStart" pointcut-ref="mypoint"/>
+            <aop:after-returning method="logReturn" pointcut-ref="mypoint" returning="result"/>
+            <aop:after-throwing method="logException" pointcut-ref="mypoint" throwing="e"/>
+            <aop:after method="logEnd" pointcut-ref="mypoint"/>
+        </aop:aspect>
+    </aop:config>
+</beans>

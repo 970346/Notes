@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--实验15：通过注解分别创建Dao、Service、Controller -->
+    <!--通过给bean上添加某些注解，可以快速的将bean加入到ioc容器中
+    Spring有四个注解：
+    @controller：给控制器层
+    @Service：给业务层
+    @Repository：给数据库层
+    @Component：给不属于上面情况的
+
+    使用注解将组件快速的加入到容器中的步骤：
+    1、给要添加的组件上标四个注解的任何一个
+    2、告诉spring，自动扫描加入注解的组件
+    3、导入aop包
+    -->
+    <!--base-package：指定扫描的基础包-->
+    <!--<context:component-scan base-package="com.feng.spring2">-->
+
+    <!--
+        实验17：使用context:exclude-filter指定扫描包时不要包含的类
+
+    -->
+    <!--
+        *type="annotation"：按照注解进行排除，expression：注解的全类名
+        *type="assignable"：按照类派驻，expression：类的全类名
+        type="aspectj"：aspectj表达式
+        type="custom"：自定义决定排除规则
+        type="regex"：按照正则表达式排除
+    -->
+        <!--<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:exclude-filter>-->
+    <!--
+        实验16：使用context:include-filter指定扫描包时要包含的类
+        需要禁用默认规则：use-default-filters="false"
+    -->
+        <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:include-filter>-->
+    <!--</context:component-scan>-->
+    <!--
+        实验18：使用@Autowired注解实现根据类型实现自动装配
+        原理：1、先按照类型去容器中找到对应的组件;bookService = ioc,getBean(BookService.class)
+              2、没找到，抛异常
+              3、找到多个,按照变量名作为id继续查找
+                    1.找到了：
+                    2.没找到：使用@Qualifier("xx")指定一个名作为id
+        @Autowired标注的自动装配属性默认是一定要装配上的
+    -->
+    <context:component-scan base-package="com.feng.spring2"></context:component-scan>
+
+    <!--
+        @Autowired与@Resource
+        相同点：都能够自动装配
+        @Autowired的优势：配合spring框架使用更强大
+        @Resource的优势：扩展性更强，如果切换成另一个容器框架，@Resource还可以使用
+    -->
+</beans>

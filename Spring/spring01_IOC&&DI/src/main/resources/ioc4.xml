@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:dbconfig.properties"></context:property-placeholder>
+    <!--username是spring的key中的一个关键字，为了防止配置文件中的key和spring自己的关键字重名-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!--${key}动态取出配置文件中某个key对应的值-->
+        <property name="user" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+        <property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
+        <property name="driverClass" value="${jdbc.driverClass}"></property>
+    </bean>
+
+    <bean id="car" class="com.feng.spring.bean.Car">
+        <property name="carName" value="宝马"></property>
+        <property name="color" value="白色"></property>
+    </bean>
+    <!--<bean id="car2" class="com.feng.spring.bean.Car">-->
+        <!--<property name="carName" value="宝马"></property>-->
+        <!--<property name="color" value="白色"></property>-->
+    <!--</bean>-->
+    <!--为Person里面的自定义类型的属性赋值====>（property ）手动赋值
+        autowire=default/no===>不自动装配
+        autowire=byName===>按照名字
+            以属性名作为id去容器中找到这个组件，给它赋值；如果找不到就装配null
+        autowire=byType===>按照类型
+            以属性的类型作为查找依据去容器中找到这个组件；若容器中有多个组件
+        autowire=constructor===>按照构造器
+            以构造器为类型作为查找依据去容器中查找；没有则null；有多个则通过参数名的作为id查找
+    -->
+    <!--<bean id="person" class="com.feng.spring.bean.Person" autowire="byType">-->
+    <!--</bean>-->
+
+    <bean id="book" class="com.feng.spring.bean.Book">
+        <property name="bookName" value="111"></property>
+    </bean>
+    <bean id="book2" class="com.feng.spring.bean.Book">
+        <property name="bookName" value="222"></property>
+    </bean>
+
+    <bean id="person2" class="com.feng.spring.bean.Person" >
+        <property name="salary" value="#{132*12}"></property>
+        <!--引用其他bean的某个属性值-->
+        <property name="lastName" value="#{book.bookName}"></property>
+        <!--引用其他bean-->
+        <property name="car" value="#{car}"></property>
+        <!--调用静态方法-->
+        <property name="email" value="#{T(java.util.UUID).randomUUID().toString().substring(0,5)}"></property>
+        <!--调用非静态方法-->
+        <property name="gender" value="#{book.getBookName()}"></property>
+    </bean>
+</beans>

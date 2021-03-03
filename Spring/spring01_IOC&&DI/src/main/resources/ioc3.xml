@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+   <!-- <bean id="car" class="com.feng.spring.bean.Car" depends-on="person,Book"></bean>
+    <bean id="person" class="com.feng.spring.bean.Person"></bean>
+    <bean id="Book" class="com.feng.spring.bean.Book"></bean>-->
+    <!--bean的作用域：指定bean是否单实例。
+        默认为单实例-->
+    <!--
+        prototype：多实例
+        singleton：单实例
+        request：在web环境下，同一次请求创建一个bean实例
+        session：在web环境下，同一次请求创建一个bean实例
+
+        单实例：1、在容器启动完成之前就已经创建好对象，保存在容器中了
+                2、任何时候获取都是获取之前创建好的对象
+        多实例：1、容器启动之前不会创建实例bean
+                2、当获取的时候才会创建实例bean
+                3、每次获取都会创建一个新的实例
+    -->
+    <bean id="book2" class="com.feng.spring.bean.Book" scope="prototype"></bean>
+
+    <!--bean的创建默认就是框架利用反射new出来的bean实例-->
+    <!--工厂模式：工厂帮我们创建对象，有一个专门帮我们创建对象的类，这个类就是工厂
+       AirPlane airPlane = AidPlaneFactory.getAirPlane(String jzName);
+
+       静态工厂：工厂本身不用创建对象。通过静态方法调用，对象=工厂类.工厂方法名();
+       实例工厂：工厂本身需要创建对象。1、工厂类 对象 = new 工厂类();2、工厂对象.getAirPlane("xx");
+    -->
+    <!--1、静态工厂（不需要创建工厂本身）-->
+    <!--factory-method：指定哪个方法是工厂方法
+        class：指定静态工厂全类名
+    -->
+    <bean id="plane" class="com.feng.spring.factory.AirPlaneStaticFactory" factory-method="getAirPlane">
+        <!--可以为方法指定参数-->
+        <constructor-arg value="张三"></constructor-arg>
+    </bean>
+
+
+    <!--
+        2、实例工厂的使用
+        1.先配置出实例工厂对象
+        2.配置我们要创建的AirPlane使用哪个工厂创建
+            a.指定哪个工厂实例
+            b.使用哪个方法
+    -->
+    <bean id="factory" class="com.feng.spring.factory.AirPlaneInstanceFactory"></bean>
+    <bean id="plane2" class="com.feng.spring.bean.AirPlane"
+          factory-bean="factory"
+          factory-method="getAirPlane">
+        <constructor-arg value="李四"></constructor-arg>
+    </bean>
+
+    <!--
+        FactoryBean(spring规定的接口)
+        只要是这个接口的实现类，spring都认为是一个工厂
+    -->
+    <bean id="factoryBean" class="com.feng.spring.factory.MyFactoryBeanImpl"></bean>
+
+    <!--bean的生命周期-->
+    <!--
+        ioc容器中注册的bean：
+            1、单例bean，容器启动的时候就会创建好，容器关闭也会销毁创建的bean
+            2、多实例bean，获取的时候才创建
+        可以自定义初始化方法(init-method)和销毁方法(destroy-method)
+    -->
+    <bean id="book" class="com.feng.spring.bean.Book"
+        destroy-method="myDestroy" init-method="myInit" scope="singleton"></bean>
+
+    <bean id="beanPostProcessor" class="com.feng.spring.bean.MyBeanPostProcessor"></bean>
+    <bean id="car" class="com.feng.spring.bean.Car"></bean>
+</beans>
