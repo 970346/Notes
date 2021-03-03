@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feng.redis.dao.EmpDao">
+    <cache-ref namespace="com.feng.redis.dao.UserDao"/>
+
+    <insert id="insert">
+        insert into emp values (#{id},#{name})
+    </insert>
+    <update id="update">
+        update emp set name=#{name} where id=#{id}
+    </update>
+    <delete id="deleteById">
+        delete from emp where id=#{id}
+    </delete>
+    <select id="findById" resultType="com.feng.redis.entity.Emp">
+        select id,name from emp where id=#{id}
+    </select>
+    <select id="findAll" resultType="com.feng.redis.entity.Emp">
+        select id,name from emp
+    </select>
+</mapper>

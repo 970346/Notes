@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="redis@localhost" uuid="20a22ad4-c835-482a-bedd-7f328aa8598b">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/redis?serverTimezone=UTC&amp;useUnicode=true&amp;characherEncoding=UTF-8</jdbc-url>
+    </data-source>
+  </component>
+</project>

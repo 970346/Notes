@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feng.redis.dao.UserDao">
+
+<!--    <cache/>-->
+    <cache type="com.feng.redis.cache.RedisCache"/>
+    <insert id="save">
+        insert into user values (#{id},#{name})
+    </insert>
+    <update id="update">
+        update user set name=#{name} where id=#{id}
+    </update>
+    <delete id="deluser">
+        delete from user where id=#{id}
+    </delete>
+
+    <select id="findAll" resultType="com.feng.redis.entity.User" >
+        select id,name from user
+    </select>
+    <select id="findbyid" resultType="com.feng.redis.entity.User">
+        select id,name from user where id=#{id}
+    </select>
+</mapper>

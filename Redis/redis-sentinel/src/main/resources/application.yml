@@ -1,0 +1,7 @@
+spring:
+  redis:
+    sentinel:
+      #sentinel.conf中自己起的数据库名称
+      master: Master20
+      #连接的是多个哨兵节点
+      nodes: 192.168.48.20:26379
