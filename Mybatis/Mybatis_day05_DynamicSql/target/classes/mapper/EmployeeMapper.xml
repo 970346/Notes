@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feng.mybatis.Dao.EmployeeMapper">
+<!--    动态sql标签
+    if：判断
+    choose(when,otherwise)：分支选择（类比switch case）
+    trim(where(封装查询条件),set(封装修改条件))：截取
+    foreach
+-->
+    <!--场景一：查询员工时要求携带了哪个字段就带上这个字段的值-->
+    <select id="getEmpsByConditionIf" resultType="com.feng.mybatis.Bean.Employee">
+      select * from tbl_employee
+        <where>
+            <!--test：判断表达式（OGNL）
+            特殊符号用转义字符
+            -->
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="lastName!=null &amp;&amp; lastName!=&quot;&quot;" >
+                and last_name like #{lastName}
+            </if>
+            <if test="email!=null &amp;&amp; email.trim()!=&quot;&quot;">
+                and email=#{email}
+            </if>
+            <!--ognl会进行字符串与数字的转换判断-->
+            <if test="gender==0 or gender==1">
+                and gender=#{gender}
+            </if>
+        </where>
+    </select>
+    
+    <select id="getEmpsByConditionTrim" resultType="com.feng.mybatis.Bean.Employee">
+        select * from tbl_employee
+        <!--
+            prefix：前缀。给拼串后的整个字符串加一个前缀
+            prefixOverrides：前缀覆盖。去掉整个字符串前面多余的字符串
+            suffix：后缀。给拼串后的整个字符串加一个后缀
+            suffixOverrides：后缀覆盖。去掉整个字符串后面多余的字符串
+        -->
+        <!--自定义字符串截取规则-->
+        <trim prefix="where" suffixOverrides="and">
+            <if test="id!=null">
+                id=#{id} and
+            </if>
+            <if test="lastName!=null &amp;&amp; lastName!=&quot;&quot;" >
+                last_name like #{lastName} and
+            </if>
+            <if test="email!=null &amp;&amp; email.trim()!=&quot;&quot;">
+                email=#{email} and
+            </if>
+            <!--ognl会进行字符串与数字的转换判断-->
+            <if test="gender==0 or gender==1">
+                gender=#{gender}
+            </if>
+        </trim>
+    </select>
+
+    <!--场景二：查询员工时要求携带了哪个字段就用这个字段的值查-->
+    <select id="getEmpByConditionChoose" resultType="com.feng.mybatis.Bean.Employee">
+        select * from tbl_employee
+        <where>
+            <choose>
+                <when test="id!=null">
+                    id=#{id}
+                </when>
+                <when test="lastName!=null">
+                    last_name like #{lastName}
+                </when>
+                <when test="email!=null">
+                    email = #{email}
+                </when>
+                <otherwise>
+                    gender=0
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--场景三：带了什么值就更新什么值-->
+    <update id="updateEmp">
+        <!--    方式一：set标签的使用
+            update tbl_employee
+            <set>
+                <if test="lastName!=null">
+                    last_name=#{lastName},
+                </if>
+                <if test="email!=null">
+                    email=#{email},
+                </if>
+                <if test="gender!=null">
+                    gender=#{gender},
+                </if>
+            </set>
+            where id=#{id}
+        -->
+        <!--方式二：trim方式更新-->
+        update tbl_employee
+        <trim prefix="set" suffixOverrides=",">
+            <if test="lastName!=null">
+                last_name=#{lastName},
+            </if>
+            <if test="email!=null">
+                email=#{email},
+            </if>
+            <if test="gender!=null">
+                gender=#{gender},
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <!--场景四：查询多个员工id-->
+    <select id="getEmpsByConditionForeach" resultType="com.feng.mybatis.Bean.Employee">
+        select * from tbl_employee where id in
+        <!--
+            collection：指定要遍历的集合，list类型的参数会特殊处理封装在map中，map的key就叫list
+            item：将当前遍历出的元素赋值给指定的变量
+            separator：每个元素之间的分隔符
+            open：遍历出的所有结果拼接一个开始的字符
+            close：遍历出的所有结果拼接出一个结束的字符
+            index：索引
+                遍历list的时候index是key，time就是当前值
+                遍历map的时候index是key，time就是value
+            通过#{变量名}取出当前遍历出的元素
+        -->
+        <foreach collection="ids" item="item_id" separator="," open="(" close=")">
+            #{item_id}
+        </foreach>
+    </select>
+
+    <!--场景五：批量保存-->
+    <!--方式一-->
+    <insert id="addEmps">
+        insert into tbl_employee (last_name,email,gender,d_id)
+        values
+        <foreach collection="emps" item="emp" separator=",">
+            (#{emp.lastName},#{emp.email},#{emp.gender},#{emp.dept.id})
+        </foreach>
+    </insert>
+    <!--方式二-->
+    <insert id="addEmps2">
+        <foreach collection="emps" item="emp" separator=";">
+            insert into tbl_employee (last_name,email,gender,d_id)
+            values(#{emp.lastName},#{emp.email},#{emp.gender},#{emp.dept.id})
+        </foreach>
+    </insert>
+</mapper>

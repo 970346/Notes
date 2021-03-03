@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feng.mybatis.Dao.EmployeeMapper">
+    <select id="getEmpById" resultType="Employee" databaseId="mysql">
+      select * from tbl_employee where id=#{id}
+    </select>
+    <!--parameterType可以省略-->
+    <!--mysql支持自增主键，自增主键的获取，mybatis也是利用statement.getGenreatedKeys()
+        useGeneratedKeys="true";使用自增主键获取主键值策略
+        keyProperty:指定对应的主键属性，也就是mybatis获取到主键值以后，将这个值封装给javaBean的哪个属性
+    -->
+    <insert id="addEmp" parameterType="com.feng.mybatis.Bean.Employee" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_employee(last_name,email,gender)
+        values (#{lastName},#{email},#{gender})
+    </insert>
+
+    <!--
+        Oracle不支持自增；但是可以通过序列的方式拿到值
+        每次插入的数据的主键是从序列中拿到的值
+            <insert id="addEmp" databaseId="oracle">
+                /*
+                  order：
+                    "BEFORE":当前sql在插入sql之前与运行
+                    "AFTER":当前sql在插入sql之后与运行
+                  resultType:返回值类型
+                  BEFORE运行顺序：
+                    先运行selectKey查询id的sql；查出id值封装给javaBean的id属性
+                    再运行插入的sql，就可以取出id属性的值
+                  AFTER运行顺序：
+                    先运行插入的sql(从序列中取出新值作为id)；
+                    再运行selectKey查询id的sql
+
+                */
+                <selectKey keyProperty="id" order="BEFORE" resultType="Integer">
+                    /*编写查询主键的sql*/
+                    select EMPLOYEE_SEQ.nextval from dual
+                </selectKey>
+                insert into employee(id,last_name,email,gender)
+                values (#{id},#{lastName},#{email},#{gender})
+
+                <selectKey keyProperty="id" order="AFTER" resultType="Integer">
+                    /*编写查询主键的sql*/
+                    select EMPLOYEE_SEQ.currval from dual
+                </selectKey>
+                insert into tbl_employee(id,last_name,email,gender)
+                values (employee_seq.nextval,#{lastName},#{email},#{gender})
+            </insert>
+    -->
+
+    <update id="updateEmp">
+        update tbl_employee
+          set last_name=#{lastName},email=#{email},gender=#{gender}
+          where id=#{id}
+    </update>
+    <delete id="deleteEmpById">
+        delete from tbl_employee where id=#{id}
+    </delete>
+
+    <select id="getEmpByIdAndLastName" resultType="com.feng.mybatis.Bean.Employee">
+        select * from tbl_employee where id=#{id} and last_name=#{lastname}
+    </select>
+
+    <select id="getEmpByMap" resultType="com.feng.mybatis.Bean.Employee">
+        select * from #{tableName} where id=${id} and last_name=#{lastname}
+    </select>
+</mapper>
